@@ -8,7 +8,7 @@ BG_COLOUR = (245, 245, 245)
 def main():
     pygame.init()
 
-    #create window and name
+    # create window and name
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption("CalmStack")
     
