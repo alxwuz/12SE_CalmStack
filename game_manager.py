@@ -7,7 +7,7 @@ class GameManager:
     def startGame(self):
         self.currentScore = 0
         self.isGameOver = False
-        print("Game Started!") # confirmation in terminal to make sure it actually works
+        print("game has started.") # confirmation in terminal to verify execution
 
     def updateScore(self):
         pass

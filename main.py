@@ -3,23 +3,21 @@ import pygame
 from settings import *
 from game_manager import *
 from game_grid import *
+from blocks import *
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((window_width, window_height))
     pygame.display.set_caption("CalmStack")
     
-    # setup fonts
     font_title = pygame.font.SysFont(None, 64)
     font_button = pygame.font.SysFont(None, 48)
     
     game = GameManager()
     grid = GameGrid()
     
-    # set the game state
     app_state = "MENU"
     
-    # create play button
     play_button = pygame.Rect(150, 300, 200, 80)
 
     running = True
@@ -31,30 +29,27 @@ def main():
             
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if app_state == "MENU":
-                    # check for mouse click in play button
+                    # checks for mouse click inside the play button area
                     if play_button.collidepoint(event.pos):
-                        app_state = "PLAYING" # change state to playing (previously from menu)
+                        app_state = "PLAYING" # changes state to playing
                         game.startGame()
 
         screen.fill(bg_colour)
         
         if app_state == "MENU":
-            # make title
             title_text = font_title.render("CalmStack", True, text_colour)
             screen.blit(title_text, (140, 150))
             
-            # draw shape of button
+            # draws shape of button
             pygame.draw.rect(screen, button_colour, play_button, border_radius=10)
             
-            # create text
+            # creates text
             btn_text = font_button.render("PLAY", True, text_colour)
             screen.blit(btn_text, (205, 325))
             
         elif app_state == "PLAYING":
-            # temporary placeholder
-            play_text = font_title.render("Game is Running!", True, text_colour)
-            screen.blit(play_text, (65, 300))
-            # soon to add drawGrid and make it into classes
+            # draws the background grid map
+            grid.drawGrid(screen)
 
         # updates display
         pygame.display.flip()
