@@ -2,19 +2,19 @@
 import pygame
 from settings import *
 from game_manager import *
-from game_grid import *
+from game_logic import *
 from blocks import *
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((window_width, window_height))
+    screen = pygame.display.set_mode((500, 700))
     pygame.display.set_caption("CalmStack")
     
     font_title = pygame.font.SysFont(None, 64)
     font_button = pygame.font.SysFont(None, 48)
     
     game = GameManager()
-    grid = GameGrid()
+    logic = GameLogic()
     
     app_state = "MENU"
     
@@ -27,29 +27,29 @@ def main():
             if event.type == pygame.QUIT:
                 running = False 
             
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if app_state == "MENU":
+            # route events based on the current game state
+            if app_state == "MENU":
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     # checks for mouse click inside the play button area
                     if play_button.collidepoint(event.pos):
                         app_state = "PLAYING" # changes state to playing
                         game.startGame()
+                        logic.drawGrid(screen)
 
         screen.fill(bg_colour)
         
         if app_state == "MENU":
-            title_text = font_title.render("CalmStack", True, text_colour)
-            screen.blit(title_text, (140, 150))
-            
-            # draws shape of button
-            pygame.draw.rect(screen, button_colour, play_button, border_radius=10)
+            title = font_title.render("CalmStack", True, text_colour)
+            screen.blit(title, (140, 150))
             
             # creates text
-            btn_text = font_button.render("PLAY", True, text_colour)
-            screen.blit(btn_text, (205, 325))
+            pygame.draw.rect(screen, (155, 0, 155), (170, 315, 150, 50))
+            button_text = font_button.render("PLAY", True, text_colour)
+            screen.blit(button_text, (200, 325))
             
         elif app_state == "PLAYING":
-            # draws the background grid map
-            grid.drawGrid(screen)
+            # draws the background grid map and the active block
+            logic.drawGrid(screen)
 
         # updates display
         pygame.display.flip()
