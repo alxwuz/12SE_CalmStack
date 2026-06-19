@@ -7,7 +7,7 @@ from blocks import *
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((500, 700))
+    screen = pygame.display.set_mode((resolution_x, resolution_y))
     pygame.display.set_caption("CalmStack")
     
     font_title = pygame.font.SysFont(None, 64)
@@ -15,6 +15,7 @@ def main():
     
     game = GameManager()
     logic = GameLogic()
+    blocks = Blocks()
     
     app_state = "MENU"
     
@@ -50,6 +51,8 @@ def main():
         elif app_state == "PLAYING":
             # draws the background grid map and the active block
             logic.drawGrid(screen)
+            blocks.onebyone(screen)
+            blocks.onebyfive(screen)
 
         # updates display
         pygame.display.flip()
