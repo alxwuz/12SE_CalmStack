@@ -34,8 +34,6 @@ def main():
                     # checks for mouse click inside the play button area
                     if play_button.collidepoint(event.pos):
                         app_state = "PLAYING" # changes state to playing
-                        game.startGame()
-                        logic.drawGrid(screen)
 
         screen.fill(bg_colour)
         
@@ -51,9 +49,7 @@ def main():
         elif app_state == "PLAYING":
             # draws the background grid map and the active block
             logic.drawGrid(screen)
-            blocks.onebyone(screen)
-            blocks.onebyfive(screen)
-
+            blocks.drawBlocks(screen)
         # updates display
         pygame.display.flip()
 
