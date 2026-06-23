@@ -18,8 +18,11 @@ def main():
     blocks = Blocks()
     
     app_state = "MENU"
-    
     play_button = pygame.Rect(150, 300, 200, 80)
+    dragging = False
+    dragged_index = None
+    drag_offset_x = 0
+    drag_offset_y = 0
 
     running = True
 
@@ -47,9 +50,39 @@ def main():
             screen.blit(button_text, (200, 325))
             
         elif app_state == "PLAYING":
-            # draws the background grid map and the active block
+            # draws the background grid map and the blocks
             logic.drawGrid(screen)
             blocks.drawBlocks(screen)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                idx = blocks.get_block_at(event.pos)
+                if idx is not None:
+                    dragging = True
+                    dragged_index = idx
+                    func, orient, colour, x, y = blocks.blocks_data[idx]
+                    drag_offset_x = event.pos[0] - x # makes sure doesn't snap to top left corner
+                    drag_offset_y = event.pos[1] - y
+
+                    block = blocks.blocks_data.pop(idx)
+                    blocks.blocks_data.append(block) 
+                    dragged_index = len(blocks.blocks_data) - 1
+
+            elif event.type == pygame.MOUSEMOTION:
+                if dragging and dragged_index is not None:
+                    if not pygame.mouse.get_pressed()[0]: # if mouse not pressed, stop dragging
+                        dragging = False
+                        dragged_index = None
+                    else:
+                        new_x = event.pos[0] - drag_offset_x # update coords of block based on where mouse goes
+                        new_y = event.pos[1] - drag_offset_y
+                        blocks.blocks_data[dragged_index][3] = new_x
+                        blocks.blocks_data[dragged_index][4] = new_y
+
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                if dragging:
+                    dragging = False
+                    dragged_index = None
+        
         # updates display
         pygame.display.flip()
 

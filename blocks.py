@@ -4,82 +4,67 @@ from settings import *
 
 class Blocks:
     def __init__(self):
-        self.orientation = random.randint(1, 4) # 1: normal, 2: 90 deg. 3: 180 degree: 4: 270 degree
-        self.generation = 3
         self.size = block_size
-        self.colour = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
+        self.initial_x = 70
+        self.initial_y = 532
+        self.blocks_data = []
 
-        self.x = 70
-        self.y = 532
+    def onebyone(self, screen, x, y, colour, orientation):
+        pygame.draw.rect(screen, colour, (x, y, self.size, self.size))
 
-        self.current_block1 = None
-        self.current_block2 = None
-        self.current_block3 = None
+    def onebythree(self, screen, x, y, colour, orientation):
+            pygame.draw.rect(screen, colour, (x, y, self.size, self.size * 3))
 
-        self.generateBlocks()
+    def onebyfive(self, screen, x, y, colour, orientation):
+            pygame.draw.rect(screen, colour, (x, y, self.size, self.size * 5))
 
-    def onebyone(self, screen):
-        pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size, self.size))
+    def twobytwo(self, screen, x, y, colour, orientation):
+        pygame.draw.rect(screen, colour, (x, y, self.size * 2, self.size * 2))
 
-    def onebythree(self, screen):
-        if self.orientation == 1 or self.orientation == 3:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size, self.size * 3))
+    def threebythree(self, screen, x, y, colour, orientation):
+        pygame.draw.rect(screen, colour, (x, y, self.size * 3, self.size * 3))
+
+    def lblock(self, screen, x, y, colour, orientation):
+        if orientation == 1:
+            pygame.draw.rect(screen, colour, (x, y, self.size, self.size * 2))
+            pygame.draw.rect(screen, colour, (x, y + self.size * 2, self.size * 2, self.size))
+        elif orientation == 2:
+            pygame.draw.rect(screen, colour, (x, y, self.size * 3, self.size))
+            pygame.draw.rect(screen, colour, (x, y + self.size, self.size, self.size))
+        elif orientation == 3:
+            pygame.draw.rect(screen, colour, (x, y, self.size * 2, self.size))
+            pygame.draw.rect(screen, colour, (x + self.size, y, self.size, self.size * 3))
         else:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 3, self.size))
+            pygame.draw.rect(screen, colour, (x, y + self.size, self.size * 3, self.size))
+            pygame.draw.rect(screen, colour, (x + self.size * 2, y, self.size, self.size))
 
-    def onebyfive(self, screen):
-        if self.orientation == 1 or self.orientation == 3:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size, self.size * 5))
+    def shortT(self, screen, x, y, colour, orientation):
+        if orientation == 1:
+            pygame.draw.rect(screen, colour, (x, y, self.size * 3, self.size))
+            pygame.draw.rect(screen, colour, (x + self.size, y + self.size, self.size, self.size))
+        elif orientation == 2:
+            pygame.draw.rect(screen, colour, (x, y + self.size, self.size, self.size))
+            pygame.draw.rect(screen, colour, (x + self.size, y, self.size, self.size * 3))
+        elif orientation == 3:
+            pygame.draw.rect(screen, colour, (x + self.size, y, self.size, self.size))
+            pygame.draw.rect(screen, colour, (x, y + self.size, self.size * 3, self.size))
         else:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 5, self.size))
+            pygame.draw.rect(screen, colour, (x, y, self.size, self.size * 3))
+            pygame.draw.rect(screen, colour, (x + self.size, y + self.size, self.size, self.size))
 
-    def twobytwo(self, screen):
-        pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 2, self.size * 2))
-
-    def threebythree(self, screen):
-        pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 3, self.size * 3))
-
-    def lblock(self, screen):
-        if self.orientation == 1:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size, self.size * 2))
-            pygame.draw.rect(screen, self.colour, (self.x, self.y + self.size * 2, self.size * 2, self.size))
-        elif self.orientation == 2:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 3, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x, self.y + self.size, self.size, self.size))
-        elif self.orientation == 3:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 2, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y, self.size, self.size * 3))
+    def corner(self, screen, x, y, colour, orientation):
+        if orientation == 1:
+            pygame.draw.rect(screen, colour, (x, y, self.size * 2, self.size))
+            pygame.draw.rect(screen, colour, (x, y + self.size, self.size, self.size))
+        elif orientation == 2:
+            pygame.draw.rect(screen, colour, (x, y, self.size * 2, self.size))
+            pygame.draw.rect(screen, colour, (x + self.size, y + self.size, self.size, self.size))
+        elif orientation == 3:
+            pygame.draw.rect(screen, colour, (x + self.size, y, self.size, self.size * 2))
+            pygame.draw.rect(screen, colour, (x, y + self.size, self.size, self.size))
         else:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y + self.size, self.size * 3, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x + self.size * 2, self.y, self.size, self.size))
-
-    def shortT(self, screen):
-        if self.orientation == 1:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 3, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y + self.size, self.size, self.size))
-        elif self.orientation == 2:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y + self.size, self.size, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y, self.size, self.size * 3))
-        elif self.orientation == 3:
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y, self.size, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x, self.y + self.size, self.size * 3, self.size))
-        else:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size, self.size * 3))
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y + self.size, self.size, self.size))
-
-    def corner(self, screen):
-        if self.orientation == 1:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 2, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x, self.y + self.size, self.size, self.size))
-        elif self.orientation == 2:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size * 2, self.size))
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y + self.size, self.size, self.size))
-        elif self.orientation == 3:
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y, self.size, self.size * 2))
-            pygame.draw.rect(screen, self.colour, (self.x, self.y + self.size, self.size, self.size))
-        else:
-            pygame.draw.rect(screen, self.colour, (self.x, self.y, self.size, self.size * 2))
-            pygame.draw.rect(screen, self.colour, (self.x + self.size, self.y + self.size, self.size, self.size))
+            pygame.draw.rect(screen, colour, (x, y, self.size, self.size * 2))
+            pygame.draw.rect(screen, colour, (x + self.size, y + self.size, self.size, self.size))
 
     def generateBlocks(self):
         block_types = [
@@ -92,21 +77,23 @@ class Blocks:
             self.shortT,
             self.corner,
         ]
-        self.current_block1 = random.choice(block_types)
-        self.current_block2 = random.choice(block_types)
-        self.current_block3 = random.choice(block_types)
+        self.blocks_data = []
+        for i in range(3): # generates 3 random pieces
+            func = random.choice(block_types)
+            colour = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
+            orient = random.randint(1, 4)
+            x = self.initial_x + i * 175 # makes sure they are spaced apart
+            y = self.initial_y
+            self.blocks_data.append([func, orient, colour, x, y]) # saves in list
 
     def drawBlocks(self, screen):
-        self.current_block1(screen) 
+        for func, orient, colour, x, y in self.blocks_data:
+            func(screen, x, y, colour, orient) # runs the randomised data from the list
 
-        # shift it by 100
-        original_x = self.x
-        self.x += 100
-        self.current_block2(screen)
-
-        # shift by 200
-        self.x = original_x + 200
-        self.current_block3(screen)
-
-        # convert to ogirinal value
-        self.x = original_x
+    def get_block_at(self, pos):
+        mouse_x, mouse_y = pos
+        for i, (func, orient, colour, x, y) in enumerate(self.blocks_data):
+            rect = pygame.Rect(x, y, self.size * 3, self.size * 3) # hitbox not fully accurate though
+            if rect.collidepoint(mouse_x, mouse_y):
+                return i
+        return None
