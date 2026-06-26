@@ -1,6 +1,9 @@
-resolution_x = 540
-resolution_y = 810
-bg_colour = (245, 245, 245)
-text_colour = (50, 50, 50)
-button_colour = (180, 200, 180)
-block_size = 50
+resolution = "480x640"
+cell_size = 40
+grid_width = 8
+grid_height = 8
+
+grid_bg = "#000080"
+empty_colour = "#2c2f4a"
+outline_colour = "#3b3f5c"
+
