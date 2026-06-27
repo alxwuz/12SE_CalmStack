@@ -1,9 +1,10 @@
-resolution = "480x640"
-cell_size = 40
+# resolution +  grid dimensions
+resolution = "480x740"
+cell_size = 50
 grid_width = 8
 grid_height = 8
 
-grid_bg = "#000080"
-empty_colour = "#2c2f4a"
-outline_colour = "#3b3f5c"
-
+# colours for grid
+grid_bg = "#1a1a2e"
+empty_colour = "#16213e"
+outline_colour = "#0f3560"
