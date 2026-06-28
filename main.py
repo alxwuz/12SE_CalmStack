@@ -1,3 +1,4 @@
+from login_ui import *
 from game_logic import *
 from game_ui import *
 from settings import *
@@ -36,11 +37,14 @@ class CalmStackGame:
             self.update_view()
             
             if self.game.has_no_moves():
-                self.ui.update_status("Game Over!")
+                self.ui.update_status(f"Game Over! Press restart to play again. Your score was {self.game.score}")
             else:
                 self.ui.update_status("Piece placed!")
         else:
-            self.ui.update_status("Cannot place piece there.")
+            if self.game.has_no_moves():
+                self.ui.update_status(f"Game Over! Press restart to play again. Your score was {self.game.score}")
+            else:
+                self.ui.update_status("Cannot place piece there.")
     
     def select_piece(self, index):
         name = self.game.select_piece(index)
@@ -64,5 +68,7 @@ class CalmStackGame:
         self.ui.run()
 
 if __name__ == "__main__":
-    game = CalmStackGame()
-    game.run()
+    login = LoginUI()
+    if login.run():
+        game = CalmStackGame()
+        game.run()

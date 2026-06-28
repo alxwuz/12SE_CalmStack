@@ -1,7 +1,6 @@
 import customtkinter as ctk
 from settings import *
 
-
 class GameUI:
     def __init__(self):
         # main window
@@ -9,12 +8,6 @@ class GameUI:
         self.root.title("CalmStack")
         self.root.geometry(resolution)
         self.root.configure(fg_color=grid_bg)
-        
-        self.score_label = None
-        self.board_canvas = None
-        self.pieces_frame = None
-        self.status_label = None
-        self.restart_button = None
         
         self.create_ui()
     

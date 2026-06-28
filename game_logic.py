@@ -86,7 +86,10 @@ class CalmStack(Game):
         if cleared:
             self.score += cleared * 2
     
-    def has_no_moves(self): # check if all pieces are placed
+    def has_no_moves(self):
+        if not self.available_pieces:
+            return True
+        
         for piece in self.available_pieces:
             for y in range(grid_height):
                 for x in range(grid_width):
@@ -97,3 +100,5 @@ class CalmStack(Game):
     def restart_game(self):
         self.score = 0
         self.board = [[None for _ in range(grid_width)] for _ in range(grid_height)]
+        self.available_pieces = []
+        self.selected_piece_index = None
