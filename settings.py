@@ -1,5 +1,5 @@
 # resolution +  grid dimensions
-resolution = "480x740"
+resolution = "480x860"
 cell_size = 50
 grid_width = 8
 grid_height = 8

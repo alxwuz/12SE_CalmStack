@@ -11,8 +11,12 @@ class LoginUI:
 
         self.is_register_mode = False
         self.login_successful = False
+        self.username = ""
 
         self.create_ui()
+
+    def get_username(self):
+        return self.username
 
     def create_ui(self):
         self.title_label = ctk.CTkLabel(
@@ -72,6 +76,7 @@ class LoginUI:
         self.status_label.configure(text=message)
 
         if success:
+            self.username = username
             self.login_successful = True
             self.root.update()
             self.root.destroy()
@@ -79,6 +84,3 @@ class LoginUI:
     def run(self):
         self.root.mainloop()
         return self.login_successful
-
-if __name__ == "__main__":
-    LoginUI().run()

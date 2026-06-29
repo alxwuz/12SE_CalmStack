@@ -1,10 +1,12 @@
 from login_ui import *
 from game_logic import *
 from game_ui import *
+from score_manager import *
 from settings import *
 
 class CalmStackGame:
-    def __init__(self):
+    def __init__(self, username):
+        self.username = username
         self.game = CalmStack()
         self.ui = GameUI()
         
@@ -14,6 +16,9 @@ class CalmStackGame:
         
         self.game.generate_pieces() # create first 3 pieces
         self.update_view() 
+
+        self.high_score = get_user_high_score(self.username)
+        self.ui.update_high_score(self.high_score)
     
     def on_board_click(self, event):
         if self.game.selected_piece_index is None: # selection check
@@ -35,6 +40,7 @@ class CalmStackGame:
                 self.game.generate_pieces() # generates new blocks once no more pieces
 
             self.update_view()
+            self.check_high_score()
             
             if self.game.has_no_moves():
                 self.ui.update_status(f"Game Over! Press restart to play again. Your score was {self.game.score}")
@@ -50,7 +56,13 @@ class CalmStackGame:
         name = self.game.select_piece(index)
         self.ui.update_status(f"Selected: {name}")
     
+    def check_high_score(self):
+        if update_user_score(self.username, self.game.score):
+            self.high_score = self.game.score
+            self.ui.update_high_score(self.high_score)
+    
     def restart_game(self):
+        self.check_high_score()
         self.game.restart_game() # resets score + board
         self.game.generate_pieces()
         self.ui.update_status("Select a piece then click on the board.")
@@ -70,5 +82,5 @@ class CalmStackGame:
 if __name__ == "__main__":
     login = LoginUI()
     if login.run():
-        game = CalmStackGame()
+        game = CalmStackGame(login.get_username())
         game.run()

@@ -20,6 +20,15 @@ class GameUI:
             text_color="white"
         )
         self.score_label.pack(pady=10)
+
+        # high score display
+        self.high_score_label = ctk.CTkLabel(
+            self.root,
+            text="High score: 0",
+            font=("Lexend", 16, "bold"),
+            text_color="gold"
+        )
+        self.high_score_label.pack(pady=10)
         
         # game board canvas
         self.board_canvas = ctk.CTkCanvas(
@@ -55,8 +64,7 @@ class GameUI:
         self.restart_button.pack(pady=10, ipadx=12, ipady=5)
     
     def draw_board(self, board):
-        """Draw/redraw the entire game board."""
-        self.board_canvas.delete("all")  # Clear canvas
+        self.board_canvas.delete("all")  # clear canvas
         
         for y in range(grid_height):
             for x in range(grid_width):
@@ -137,6 +145,9 @@ class GameUI:
             )
 
             label.grid(row=1, column=i)
+
+    def update_high_score(self, score):
+        self.high_score_label.configure(text=f"High score: {score}")
     
     def update_score(self, score):
         self.score_label.configure(text=f"Score: {score}")
