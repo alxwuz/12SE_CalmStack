@@ -64,8 +64,6 @@ class GameUI:
         self.restart_button.pack(pady=10, ipadx=12, ipady=5)
     
     def draw_board(self, board):
-        self.board_canvas.delete("all")  # clear canvas
-        
         for y in range(grid_height):
             for x in range(grid_width):
                 x1 = x * cell_size # convert grid to pixels
@@ -127,7 +125,6 @@ class GameUI:
                 bg="darkblue",
                 highlightthickness=2,
             )
-            canvas.configure(bg="darkblue")
             canvas.grid(row=0, column=i, padx=10)
 
             self.draw_piece_preview(canvas, piece)
