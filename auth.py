@@ -2,15 +2,15 @@ import json
 import os
 import hashlib
 
-user_file = "users.json"
+user_file = "users.json" # file for user and password data
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 def load_users():
-    if not os.path.exists(user_file) or os.path.getsize(user_file) == 0:
+    if not os.path.exists(user_file) or os.path.getsize(user_file) == 0: # if file isn't there give an empty list
         return {}
-    with open(user_file, "r") as f:
+    with open(user_file, "r") as f: # read mode
         return json.load(f)
 
 def save_users(users):

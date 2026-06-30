@@ -1,7 +1,7 @@
 import json
 import os
 
-score_file = "scores.json"
+score_file = "scores.json" # file for high score
 
 def load_scores():
     if not os.path.exists(score_file) or os.path.getsize(score_file) == 0:
@@ -11,7 +11,7 @@ def load_scores():
 
 def save_scores(scores):
     with open(score_file, "w") as f:
-        json.dump(scores, f, indent=2)
+        json.dump(scores, f, indent=2) # line breaks
 
 def update_user_score(username, new_score):
     scores = load_scores()
